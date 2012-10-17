@@ -108,6 +108,10 @@ extern void _jl_mpz_bin_uiui(mpz_t* rop, unsigned long int n, unsigned long int 
   mpz_bin_uiui(*rop, n, k);
 }
 
+extern void _jl_mpz_fib_ui(mpz_t* fn, unsigned long int n) {
+  mpz_fib_ui(*fn, n);
+}
+
 extern char*  _jl_mpz_printf(mpz_t* rop) {
   char* pp;
   int s = gmp_asprintf(&pp, "%Zd", *rop);
