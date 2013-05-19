@@ -190,6 +190,10 @@ include("pkg.jl")
 # base graphics API
 include("graphics.jl")
 
+# rounding utilities
+include("rounding.jl")
+importall .Rounding
+
 include = include_from_node1
 
 # prime method cache with some things we know we'll need right after startup

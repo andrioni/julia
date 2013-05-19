@@ -108,6 +108,11 @@ export
     LDLTTridiagonal,
     QR,
     QRPivoted,
+    RoundDown,
+    RoundingMode,
+    RoundToNearest,
+    RoundToZero,
+    RoundUp,
     Schur,
     SVD,
     GeneralizedSVD,
@@ -812,6 +817,9 @@ export
     get_bigfloat_rounding,
     set_bigfloat_rounding,
     with_bigfloat_rounding,
+    get_rounding,
+    set_rounding,
+    with_rounding,
 
 # statistics
     cor,
