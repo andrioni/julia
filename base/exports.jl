@@ -108,6 +108,7 @@ export
     LDLTTridiagonal,
     QR,
     QRPivoted,
+    RoundAwayZero,
     RoundDown,
     RoundingMode,
     RoundToNearest,

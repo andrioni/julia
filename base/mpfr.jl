@@ -3,6 +3,7 @@ module MPFR
 export
     # Types
     BigFloat,
+    RoundAwayZero,
     # Functions
     bigfloat_pi,
     bigfloat_eulergamma,
