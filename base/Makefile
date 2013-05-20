@@ -3,13 +3,16 @@ include ../Make.inc
 
 PCRE_CONST = 0x[0-9a-fA-F]+|[-+]?\s*[0-9]+
 
-all: pcre_h.jl errno_h.jl build_h.jl file_constants.jl uv_constants.jl
+all: pcre_h.jl errno_h.jl build_h.jl fenv_constants.jl file_constants.jl uv_constants.jl
 
 pcre_h.jl:
 	$(QUIET_PERL) $(CPP) -dM $(shell $(PCRE_CONFIG) --prefix)/include/pcre.h | perl -nle '/^\s*#define\s+PCRE_(\w*)\s*\(?($(PCRE_CONST))\)?\s*$$/ and print "const $$1 = uint32($$2)"' | sort > $@
 
 errno_h.jl:
 	$(QUIET_PERL) echo '#include "errno.h"' | $(CC) -E -dM - | perl -nle 'print "const $$1 = int32($$2)" if /^#define\s+(E\w+)\s+(\d+)\s*$$/' | sort > $@
+
+fenv_constants.jl: ../src/fenv_constants.h
+	$(QUIET_PERL) ${CC} -E -P -DJULIA ../src/fenv_constants.h | perl -nle 'print "$$1 0o$$2" if /^(\s*const\s+[A-z_]+\s+=)\s+(0[0-9]*)\s*$$/; print "$$1" if /^\s*(const\s+[A-z_]+\s+=\s+([1-9]|0x)[0-9A-z]*)\s*$$/' > $@
 
 file_constants.jl: ../src/file_constants.h
 	$(QUIET_PERL) ${CC} -E -P -DJULIA ../src/file_constants.h | perl -nle 'print "$$1 0o$$2" if /^(\s*const\s+[A-z_]+\s+=)\s+(0[0-9]*)\s*$$/; print "$$1" if /^\s*(const\s+[A-z_]+\s+=\s+([1-9]|0x)[0-9A-z]*)\s*$$/' > $@
@@ -34,5 +37,6 @@ clean:
 	rm -f pcre_h.jl
 	rm -f errno_h.jl
 	rm -f build_h.jl
+	rm -f fenv_constants.jl
 	rm -f uv_constants.jl
 	rm -f file_constants.jl
