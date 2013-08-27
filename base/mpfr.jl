@@ -3,7 +3,7 @@ module MPFR
 export
     # Types
     BigFloat,
-    RoundAwayZero,
+    RoundFromZero,
     # Functions
     bigfloat_pi,
     bigfloat_eulergamma,
@@ -27,14 +27,14 @@ import
         sin, cos, tan, sec, csc, cot, acos, asin, atan, cosh, sinh, tanh,
         sech, csch, coth, acosh, asinh, atanh, atan2,
     # rounding types
-        RoundingMode, RoundDown, RoundingMode, RoundToNearest, RoundToZero, 
+        RoundingMode, RoundDown, RoundingMode, RoundNearest, RoundToZero, 
         RoundUp
 
 const ROUNDING_MODE = [0]
 const DEFAULT_PRECISION = [256]
 
 # Rounding modes
-type RoundAwayZero <: RoundingMode end
+type RoundFromZero <: RoundingMode end
 
 # Basic type and initialization definitions
 
@@ -600,7 +600,7 @@ end
 
 function get_bigfloat_rounding()
     if ROUNDING_MODE[end] == 0
-        return RoundToNearest
+        return RoundNearest
     elseif ROUNDING_MODE[end] == 1
         return RoundToZero
     elseif ROUNDING_MODE[end] == 2
@@ -608,16 +608,16 @@ function get_bigfloat_rounding()
     elseif ROUNDING_MODE[end] == 3
         return RoundDown
     elseif ROUNDING_MODE[end] == 4
-        return RoundAwayZero
+        return RoundFromZero
     else
         error("Invalid rounding mode")
     end
 end
-set_bigfloat_rounding(::Type{RoundToNearest}) = ROUNDING_MODE[end] = 0
+set_bigfloat_rounding(::Type{RoundNearest}) = ROUNDING_MODE[end] = 0
 set_bigfloat_rounding(::Type{RoundToZero}) = ROUNDING_MODE[end] = 1
 set_bigfloat_rounding(::Type{RoundUp}) = ROUNDING_MODE[end] = 2
 set_bigfloat_rounding(::Type{RoundDown}) = ROUNDING_MODE[end] = 3
-set_bigfloat_rounding(::Type{RoundAwayZero}) = ROUNDING_MODE[end] = 4
+set_bigfloat_rounding(::Type{RoundFromZero}) = ROUNDING_MODE[end] = 4
 
 function copysign(x::BigFloat, y::BigFloat)
     z = BigFloat()
