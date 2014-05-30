@@ -713,4 +713,6 @@ print(io::IO, b::BigFloat) = print(io, string(b))
 show(io::IO, b::BigFloat) = print(io, string(b), " with $(precision(b)) bits of precision")
 showcompact(io::IO, b::BigFloat) = print(io, string(b))
 
+include("mpfr_internals.jl")
+
 end #module
